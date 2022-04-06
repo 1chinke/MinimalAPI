@@ -10,7 +10,7 @@ Ayrıca bu projede Authentication ve Authorization da kullanılıyor. login olma
 
 Login den dönen token kopyalanarak swagger'daki "Authorize" kısmına yapıştırılmalı. Ancak tokenın başındaki ve sonundaki " (çift tırnak) karakterleri silinmeli aksi takdirde invalid token hatası alırsınız.
 
-Postman'de Params bölümündeki Authorization'dan "Bearer Token" seçilip, Token kısmına yine çift tırnak olmadan yapıştırılmalı
+Postman'de Authorization'da "Bearer Token" seçilip, Token kısmına yine çift tırnak olmadan yapıştırılmalı
 
 Test için: (normal kullanıcı) 
 Username: norm
