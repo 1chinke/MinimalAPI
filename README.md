@@ -8,6 +8,10 @@ Farklar: Artık controller yok, onun yerine Program.cs içerisinde doğrudan API
 
 Ayrıca bu projede Authentication ve Authorization da kullanılıyor. login olmadan diğer end pointleri kullanmanız mümkün değil.
 
+Login den dönen token kopyalanarak swagger'daki "Authorize" kısmına yapıştırılmalı. Ancak tokenın başındaki ve sonundaki " (çift tırnak) karakterleri silinmeli aksi takdirde invalid token hatası alırsınız.
+
+Postman'de Params bölümündeki Authorization'dan "Bearer Token" seçilip, Token kısmına yine çift tırnak olmadan yapıştırılmalı
+
 Test için: (normal kullanıcı) 
 Username: norm
 Password: norm
