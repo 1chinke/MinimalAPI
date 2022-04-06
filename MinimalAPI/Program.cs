@@ -294,9 +294,9 @@ try
 
     });
 
-    app.MapGet("/login", async (string username, string password, IMediator mediator, CancellationToken cancel) =>
+    app.MapPost("/login", async (UserLogin login, IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new GetLogin(username, password));
+        var result = await mediator.Send(new GetLogin(login), cancel);
 
         if (result.StatusCode == 200)
         {

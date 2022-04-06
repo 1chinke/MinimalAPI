@@ -25,8 +25,8 @@ public class GetLoginHnd : IRequestHandler<GetLogin, LoginResponse>
     {
         try
         {
-            var passwordHash = CreatePasswordHash(request.Password);
-            var kullanici = await _repo.Login(request.Username, passwordHash);
+            var passwordHash = CreatePasswordHash(request.Login.Password);
+            var kullanici = await _repo.Login(request.Login.Username, passwordHash);
 
             if (kullanici == null)
             {

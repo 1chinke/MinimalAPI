@@ -1,7 +1,8 @@
 ﻿using MediatR;
+using MinimalAPI.Models;
 using MinimalAPI.Responses;
 
 namespace MinimalAPI.Mediatr.Queries.KullaniciQueries;
 
-public record GetLogin(string Username, string Password) : IRequest<LoginResponse>;
+public record GetLogin(UserLogin Login) : IRequest<LoginResponse>;
 
