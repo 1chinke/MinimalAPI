@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using MinimalAPI.Mediatr.Queries.PersonQueries;
-using MinimalAPI.Repository;
+using MinimalAPI.Infrastructure.Repository;
 using MinimalAPI.Responses;
+using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
@@ -22,13 +23,13 @@ public class GetPersonByIdHnd : IRequestHandler<GetPersonById, PersonResponse>
 
             if (result == null)
             {
-                return new PersonResponse(StatusCode: 404);
+                return new PersonResponse(StatusCode: HttpStatusCode.NotFound);
             }
 
             return new PersonResponse(result);
         } catch (Exception ex)
         {
-            return new PersonResponse(StatusCode: 400, Error: ex.Message);
+            return new PersonResponse(StatusCode: HttpStatusCode.BadRequest, Error: ex.Message);
         }
         
     }

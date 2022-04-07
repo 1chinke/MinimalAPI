@@ -1,7 +1,7 @@
 ﻿using MinimalAPI.Models;
 using System.Data;
 
-namespace MinimalAPI.Repository;
+namespace MinimalAPI.Infrastructure.Repository;
 
 public interface IKullaniciRepo
 {
@@ -11,6 +11,7 @@ public interface IKullaniciRepo
     Task<Kullanici> Login(String username, String password);
     Task<int> Insert(Kullanici model);
     Task<int> Update(string username, Kullanici model);
-
-    IDbConnection GetConnection();
+    Task<int> InsertKullaniciRol(string username, IEnumerable<Rol> roller);
+    Task<IEnumerable<Rol>> GetKullaniciRoles(string username);
+    
 }

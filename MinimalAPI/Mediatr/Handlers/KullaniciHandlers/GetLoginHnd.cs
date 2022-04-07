@@ -1,12 +1,13 @@
 ﻿using MediatR;
 using MinimalAPI.Mediatr.Queries.KullaniciQueries;
-using MinimalAPI.Repository;
+using MinimalAPI.Infrastructure.Repository;
 using MinimalAPI.Responses;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Cryptography;
+using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
@@ -30,18 +31,24 @@ public class GetLoginHnd : IRequestHandler<GetLogin, LoginResponse>
 
             if (kullanici == null)
             {
-                return new LoginResponse(StatusCode: 404, Error: "Kullanıcı ya da parola hatalı");
+                return new LoginResponse(StatusCode: HttpStatusCode.NotFound, Error: "Kullanıcı ya da parola hatalı");
             }
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, kullanici.Username),
-                new Claim(ClaimTypes.Role, kullanici.Role),
+                //new Claim(ClaimTypes.Role, kullanici.Role),
                 new Claim(ClaimTypes.Email, kullanici.EmailAddress),
                 new Claim(ClaimTypes.GivenName, kullanici.FirstName),
                 new Claim(ClaimTypes.Surname, kullanici.LastName)
-                };
+            };
 
+            var roller = await _repo.GetKullaniciRoles(kullanici.Username);
+
+            foreach (var rol in roller)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, rol.Adi));
+            }
 
             var token = new JwtSecurityToken
             (
@@ -57,11 +64,11 @@ public class GetLoginHnd : IRequestHandler<GetLogin, LoginResponse>
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new LoginResponse(claims, kullanici, tokenString, 200);
+            return new LoginResponse(claims.ToArray(), kullanici, tokenString, HttpStatusCode.OK);
         }
         catch (Exception ex)
         {
-            return new LoginResponse(StatusCode: 400, Error: ex.Message);
+            return new LoginResponse(StatusCode: HttpStatusCode.BadRequest, Error: ex.Message);
         }
 
     }

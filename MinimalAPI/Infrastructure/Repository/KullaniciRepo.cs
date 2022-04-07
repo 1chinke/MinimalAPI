@@ -2,15 +2,15 @@
 using MinimalAPI.Models;
 using System.Data;
 
-namespace MinimalAPI.Repository;
+namespace MinimalAPI.Infrastructure.Repository;
 
 public class KullaniciRepo : IKullaniciRepo
 {
     private readonly IDbConnection _conn;
 
-    public KullaniciRepo()
+    public KullaniciRepo(IConnectionManager connectionManager)
     {
-        _conn = ConnectionManager.GetInstance().GetConnection();
+        _conn = connectionManager.GetConnection();
     }
 
     public async Task<int> Delete(string username)
@@ -72,5 +72,32 @@ public class KullaniciRepo : IKullaniciRepo
         return await _conn.ExecuteAsync(query, param: parameters);
     }
 
-    public IDbConnection GetConnection() => _conn;
+    public async Task<int> InsertKullaniciRol(string username, IEnumerable<Rol> roller)
+    {
+        string query = "Insert Into kullanici_rol(username, rol) values(:username, :rol)";
+
+        int result = 0;
+
+        foreach (var rol in roller)
+        {
+            var parameters = new { username, rol};
+            result += await _conn.ExecuteAsync(query, param: parameters);
+        }
+
+        return result;
+    }
+
+    public async Task<IEnumerable<Rol>> GetKullaniciRoles(string username)
+    {
+        string query = @"Select r.*
+                         From kullanici k, rol r, kullanici_rol kr
+                         Where kr.username = k.username And
+                               kr.rol = r.id And
+                               k.username = :username
+                         Order By r.id ";
+
+        var parameters = new { username };
+
+        return await _conn.QueryAsync<Rol>(query, param: parameters);
+    }
 }

@@ -1,7 +1,8 @@
 ﻿using MinimalAPI.Mediatr.Queries.KullaniciQueries;
-using MinimalAPI.Repository;
+using MinimalAPI.Infrastructure.Repository;
 using MinimalAPI.Responses;
 using MediatR;
+using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
@@ -26,7 +27,7 @@ public class GetPeopleHnd : IRequestHandler<GetAllKullanici, KullanicilarRespons
         }
         catch (Exception ex)
         {
-            return new KullanicilarResponse(StatusCode: 400, Error: ex.Message);
+            return new KullanicilarResponse(StatusCode: HttpStatusCode.BadRequest, Error: ex.Message);
         }
     }
 }

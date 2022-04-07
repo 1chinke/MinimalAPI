@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using MinimalAPI.Mediatr.Queries.KullaniciQueries;
-using MinimalAPI.Repository;
+using MinimalAPI.Infrastructure.Repository;
 using MinimalAPI.Responses;
+using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
@@ -22,14 +23,14 @@ public class GetKullaniciByUsernameHnd : IRequestHandler<GetKullaniciByUsername,
 
             if (result == null)
             {
-                return new KullaniciResponse(StatusCode: 404);
+                return new KullaniciResponse(StatusCode: HttpStatusCode.NotFound);
             }
 
             return new KullaniciResponse(result);
         }
         catch (Exception ex)
         {
-            return new KullaniciResponse(StatusCode: 400, Error: ex.Message);
+            return new KullaniciResponse(StatusCode: HttpStatusCode.BadRequest, Error: ex.Message);
         }
 
     }

@@ -1,7 +1,8 @@
 ﻿using MinimalAPI.Mediatr.Queries.PersonQueries;
-using MinimalAPI.Repository;
+using MinimalAPI.Infrastructure.Repository;
 using MinimalAPI.Responses;
 using MediatR;
+using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
@@ -26,7 +27,7 @@ public class GetPeopleHnd : IRequestHandler<GetPeople, PeopleResponse>
         }
         catch (Exception ex)
         {
-            return new PeopleResponse(StatusCode: 400, Error: ex.Message);
+            return new PeopleResponse(StatusCode: HttpStatusCode.BadRequest, Error: ex.Message);
         }
     }
 }

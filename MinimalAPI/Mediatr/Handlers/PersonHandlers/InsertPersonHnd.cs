@@ -1,16 +1,19 @@
 ﻿using MinimalAPI.Mediatr.Commands.PersonCommands;
-using MinimalAPI.Repository;
+using MinimalAPI.Infrastructure.Repository;
 using MinimalAPI.Responses;
 using MediatR;
+using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
 public class InsertPersonHnd : IRequestHandler<InsertPerson, GenericResponse>
 {
+    private readonly IConnectionManager _connectionManager;
     private readonly IPersonRepo _repo;
 
-    public InsertPersonHnd(IPersonRepo repo)
+    public InsertPersonHnd(IConnectionManager connectionManager, IPersonRepo repo)
     {
+        _connectionManager = connectionManager;
         _repo = repo;
     }
 
@@ -18,7 +21,7 @@ public class InsertPersonHnd : IRequestHandler<InsertPerson, GenericResponse>
     { 
         try
         {
-            using var transaction = _repo.GetConnection().BeginTransaction();
+            using var transaction = _connectionManager.GetConnection().BeginTransaction();
             try
             {
                 var result = await _repo.Insert(request.Model.Id, request.Model.FirstName, request.Model.LastName);
@@ -26,7 +29,7 @@ public class InsertPersonHnd : IRequestHandler<InsertPerson, GenericResponse>
 
                 if (result == 0)
                 {
-                    return new GenericResponse(StatusCode: 400, Error: "Kaydedilemedi.");
+                    return new GenericResponse(StatusCode: HttpStatusCode.BadRequest, Error: "Kaydedilemedi.");
                 }
 
 
@@ -36,12 +39,12 @@ public class InsertPersonHnd : IRequestHandler<InsertPerson, GenericResponse>
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return new GenericResponse(StatusCode: 400, Error: ex.Message);
+                return new GenericResponse(StatusCode: HttpStatusCode.BadRequest, Error: ex.Message);
             }
         }
         catch (Exception ex)
         {
-            return new GenericResponse(StatusCode: 400, Error: ex.Message);
+            return new GenericResponse(StatusCode: HttpStatusCode.BadRequest, Error: ex.Message);
         }
 
     }

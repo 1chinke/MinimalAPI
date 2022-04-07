@@ -3,15 +3,15 @@ using MinimalAPI.Models;
 using System.Data;
 
 
-namespace MinimalAPI.Repository;
+namespace MinimalAPI.Infrastructure.Repository;
 
 public class PersonRepo : IPersonRepo
 {
     private readonly IDbConnection _conn;
 
-    public PersonRepo()
+    public PersonRepo(IConnectionManager connectionManager)
     {
-        _conn = ConnectionManager.GetInstance().GetConnection();
+        _conn = connectionManager.GetConnection();
     }
 
 
@@ -59,7 +59,5 @@ public class PersonRepo : IPersonRepo
 
         return await _conn.ExecuteAsync(query, param: parameters);
     }
-
-    public IDbConnection GetConnection() => _conn;
 
 }

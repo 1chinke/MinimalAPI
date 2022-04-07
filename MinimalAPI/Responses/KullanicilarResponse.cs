@@ -1,6 +1,7 @@
 ﻿using MinimalAPI.Models;
+using System.Net;
 
 namespace MinimalAPI.Responses;
 
-public record KullanicilarResponse(IEnumerable<Kullanici> Result = null, int StatusCode = 200, string Error = "");
+public record KullanicilarResponse(IEnumerable<Kullanici> Result = null, HttpStatusCode StatusCode = HttpStatusCode.OK, string Error = "");
 

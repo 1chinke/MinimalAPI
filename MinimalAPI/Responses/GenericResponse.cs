@@ -1,3 +1,5 @@
-﻿namespace MinimalAPI.Responses;
+﻿using System.Net;
 
-public record GenericResponse(object Result = null, int StatusCode = 200, string Error = "");
+namespace MinimalAPI.Responses;
+
+public record GenericResponse(object Result = null, HttpStatusCode StatusCode = HttpStatusCode.OK, string Error = "");

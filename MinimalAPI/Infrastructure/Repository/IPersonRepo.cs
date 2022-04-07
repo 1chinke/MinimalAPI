@@ -1,7 +1,7 @@
 ﻿using MinimalAPI.Models;
 using System.Data;
 
-namespace MinimalAPI.Repository;
+namespace MinimalAPI.Infrastructure.Repository;
 
 public interface IPersonRepo
 {
@@ -11,5 +11,5 @@ public interface IPersonRepo
     Task<int> Insert(int id, string firstName, string lastName);
     Task<int> Update(int id, Person model);
 
-    IDbConnection GetConnection();
+
 }

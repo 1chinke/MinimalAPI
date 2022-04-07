@@ -14,7 +14,7 @@ public class KullaniciValidator : AbstractValidator<Kullanici>
         RuleFor(p => p.EmailAddress).NotEmpty().WithMessage("{PropertyName} boş geçilemez.")
             .EmailAddress().WithMessage("{PropertyValue} geçerli bir e-posta adresi değil.");
 
-        RuleFor(p => p.Role).NotEmpty().WithMessage("{PropertyName} boş geçilemez.");
+        //RuleFor(p => p.Role).NotEmpty().WithMessage("{PropertyName} boş geçilemez.");
 
         RuleFor(p => p.FirstName)
             .Cascade(CascadeMode.Stop)
@@ -27,6 +27,7 @@ public class KullaniciValidator : AbstractValidator<Kullanici>
             .NotEmpty().WithMessage("{PropertyName} boş geçilemez.")
             .Length(2, 20).WithMessage("{PropertyName} uzunluğu ({TotalLength}) hatalı. {MinLength} - {MaxLength} arasında olmalı.")
             .Must(CheckName).WithMessage("{PropertyName} içerisinde sadece harf olmalı.");
+
     }
 
     protected bool CheckName(string name)

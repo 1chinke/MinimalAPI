@@ -13,12 +13,16 @@ using MinimalAPI.Mediatr.Commands.PersonCommands;
 using MinimalAPI.Mediatr.Queries.KullaniciQueries;
 using MinimalAPI.Mediatr.Queries.PersonQueries;
 using MinimalAPI.Models;
-using MinimalAPI.Repository;
+using MinimalAPI.Infrastructure.Repository;
 using MinimalAPI.Validators.Api;
 using MinimalAPI.Validators.Domain;
 using Serilog;
 using Serilog.Events;
 using System.Text;
+using MinimalAPI.Infrastructure.Integration;
+using MinimalAPI.Mediatr.Queries.HavaTahminiQueries;
+using System.Net;
+
 
 // Serilogu iki aþamalý olarak yapýlandýrýyoruz.
 // 1) ASP.NET Core uygulamasýnýn baþlatýlmasý
@@ -43,6 +47,11 @@ try
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services)
         .Enrich.FromLogContext());
+
+
+    DateTime time = DateTime.ParseExact("2022-04-07", "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+
+    Log.Information($"Time is: {time}", time);
 
     // Add services to the container.
 
@@ -94,16 +103,23 @@ try
     builder.Services.AddAuthorization();
 
     //vmo: DI'lar buraya ekleniyor
+    builder.Services.AddSingleton<IConnectionManager, ConnectionManager>();
     builder.Services.AddSingleton<IPersonRepo, PersonRepo>();
     builder.Services.AddSingleton<IKullaniciRepo, KullaniciRepo>();
+    builder.Services.AddSingleton<IRolRepo, RolRepo>();
+    builder.Services.AddSingleton<IHavaTahminiSvc, HavaTahminiSvc>();
 
     builder.Services.AddMediatR(typeof(MediatrEntryPoint).Assembly); //bunun için nugetten mediatr.dependencyinjection paketini eklemek gerekiyor.
                                                                      //MediatrEntryPoint: Mediatr dizinindeki boþ class
     builder.Services.AddValidatorsFromAssembly(typeof(DomainValidationEntryPoint).Assembly);
+    builder.Services.AddMemoryCache();
 
     //Mediatr pipeline behavior DI. Buradaki sýraya göre pipelinedaki her bir behavior çalýþýyor
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
     builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+    builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+
+    builder.Services.AddHttpClient();
 
     var app = builder.Build();
 
@@ -115,6 +131,21 @@ try
     }
 
 
+    ////////////////////////HAVA TAHMÝNÝ//////////////////////
+
+    app.MapGet("/havaTahmini",
+    async (string tarih, IMediator mediator, CancellationToken cancel) =>
+        {
+            var result = await mediator.Send(new GetHavaTahmini(tarih), cancel);
+
+            return result.StatusCode switch
+            {
+                HttpStatusCode.OK => Results.Ok(result),
+                HttpStatusCode.NotFound => Results.NotFound("Hava tahmini bulunamadý."),
+                _ => Results.BadRequest(result),
+            };
+        });
+
     /////////////////////////////PERSON/////////////////////////// 
 
     app.MapGet("/allPerson",
@@ -125,8 +156,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kiþi bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kiþi bulunamadý."),
             _ => Results.BadRequest(result),
         };
     });
@@ -139,8 +170,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kiþi bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kiþi bulunamadý."),
             _ => Results.BadRequest(result),
         };
     });
@@ -160,8 +191,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kiþi bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kiþi bulunamadý."),
             _ => Results.BadRequest(result),
         };
 
@@ -182,8 +213,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kiþi bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kiþi bulunamadý."),
             _ => Results.BadRequest(result),
         };
 
@@ -197,8 +228,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kiþi bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kiþi bulunamadý."),
             _ => Results.BadRequest(result),
         };
 
@@ -215,8 +246,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kullanýcý bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kullanýcý bulunamadý."),
             _ => Results.BadRequest(result),
         };
     });
@@ -229,8 +260,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kullanýcý bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kullanýcý bulunamadý."),
             _ => Results.BadRequest(result),
         };
     });
@@ -250,8 +281,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kullanýcý bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kullanýcý bulunamadý."),
             _ => Results.BadRequest(result),
         };
 
@@ -272,8 +303,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kullanýcý bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kullanýcý bulunamadý."),
             _ => Results.BadRequest(result),
         };
 
@@ -287,8 +318,8 @@ try
 
         return result.StatusCode switch
         {
-            200 => Results.Ok(result),
-            404 => Results.NotFound("Kullanýcý bulunamadý."),
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kullanýcý bulunamadý."),
             _ => Results.BadRequest(result),
         };
 
@@ -298,18 +329,12 @@ try
     {
         var result = await mediator.Send(new GetLogin(login), cancel);
 
-        if (result.StatusCode == 200)
+        return result.StatusCode switch
         {
-            return Results.Ok(result.Token);
-        }
-        else if (result.StatusCode == 404)
-        {
-            return Results.NotFound("Kullanýcý adý ya da parola hatalý.");
-        }
-        else
-        {
-            return Results.BadRequest(result);
-        }
+            HttpStatusCode.OK => Results.Ok(result),
+            HttpStatusCode.NotFound => Results.NotFound("Kullanýcý adý ya da parola hatalý."),
+            _ => Results.BadRequest(result),
+        };
 
     });
 
@@ -354,7 +379,7 @@ try
                 };
 
                 pd.Extensions.Add("RequestId", context.TraceIdentifier);
-            //pd.Extensions.Add("User", context.User);
+                pd.Extensions.Add("User", context.User);
 
             context.Response.StatusCode = status;
 
