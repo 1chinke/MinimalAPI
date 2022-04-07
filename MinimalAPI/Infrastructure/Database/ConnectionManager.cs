@@ -9,13 +9,22 @@ public class ConnectionManager : IConnectionManager
 
     public ConnectionManager(IConfiguration config)
     {
-        string connString = $"Data Source=(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = {config["Database:Connection:Host"]})(PORT = {config["Database:Connection:Port"]}))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = {config["Database:Connection:ServiceName"]})));" +
-                            $"User Id = { config["Database:Credentials:UserId"] }; Password = { config["Database:Credentials:Password"] };" + 
+        string connString = @$"Data Source=(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)" + 
+                            $"      (HOST = {config["Database:Connection:Host"]})" +
+                            $"      (PORT = {config["Database:Connection:Port"]}))" +
+                            $"      (CONNECT_DATA = (SERVER = DEDICATED)" +
+                            $"      (SERVICE_NAME = {config["Database:Connection:ServiceName"]})));" +
+                            $"User Id = { config["Database:Credentials:UserId"] };" +
+                            $"Password = { config["Database:Credentials:Password"] };" + 
                             $"Min Pool Size = {config["Database:Pool:MinPoolSize"]};" +
                             $"Connection Lifetime = {config["Database:Pool:ConnectionLifetime"]};" +
                             $"Connection Timeout = {config["Database:Pool:ConnectionTimeout"]};" +
                             $"Incr Pool Size = {config["Database:Pool:IncrPoolSize"]};" +
                             $"Decr Pool Size = {config["Database:Pool:IncrPoolSize"]};";
+
+
+
+
 
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         _conn = new OracleConnection(connString);
