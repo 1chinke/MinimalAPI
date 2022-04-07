@@ -1,7 +1,7 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System.Data;
 
-namespace MinimalAPI.Infrastructure.Repository;
+namespace MinimalAPI.Infrastructure.Database;
 
 public class ConnectionManager : IConnectionManager
 {

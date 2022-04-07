@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MinimalAPI.Mediatr.Queries.PersonQueries;
-using MinimalAPI.Infrastructure.Repository;
+using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using System.Net;
 

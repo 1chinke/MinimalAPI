@@ -1,5 +1,5 @@
 ﻿using MinimalAPI.Mediatr.Queries.KullaniciQueries;
-using MinimalAPI.Infrastructure.Repository;
+using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;

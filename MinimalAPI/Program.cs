@@ -13,7 +13,7 @@ using MinimalAPI.Mediatr.Commands.PersonCommands;
 using MinimalAPI.Mediatr.Queries.KullaniciQueries;
 using MinimalAPI.Mediatr.Queries.PersonQueries;
 using MinimalAPI.Models;
-using MinimalAPI.Infrastructure.Repository;
+using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Validators.Api;
 using MinimalAPI.Validators.Domain;
 using Serilog;

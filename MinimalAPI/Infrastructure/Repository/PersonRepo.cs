@@ -3,7 +3,7 @@ using MinimalAPI.Models;
 using System.Data;
 
 
-namespace MinimalAPI.Infrastructure.Repository;
+namespace MinimalAPI.Infrastructure.Database;
 
 public class PersonRepo : IPersonRepo
 {

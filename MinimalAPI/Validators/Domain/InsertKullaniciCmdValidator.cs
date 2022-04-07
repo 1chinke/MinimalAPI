@@ -1,5 +1,5 @@
 ﻿using MinimalAPI.Mediatr.Commands.KullaniciCommands;
-using MinimalAPI.Infrastructure.Repository;
+using MinimalAPI.Infrastructure.Database;
 using FluentValidation;
 
 namespace MinimalAPI.Validators;
