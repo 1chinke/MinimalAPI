@@ -25,6 +25,10 @@ kullanabilirsiniz.
 
 Aşağıdaki paketleri nuget üzerinden yüklemeniz gerekir:
 
-![image](https://user-images.githubusercontent.com/42934024/161954361-cac42e46-d77f-4aab-9c33-6929266e613f.png)
+![image](https://user-images.githubusercontent.com/42934024/162229555-aca78cac-cbf8-4f53-b2b4-b32cecfa7f8d.png)
+
 
 Swagger'a erişmek için URL'in sonuna /swagger/index.html eklenmelidir. Örnek: https://localhost:7068/swagger/index.html
+
+TODO: (veyahut Ödev :))
+Kullanıcı rollerinin çoklu bir şekilde girilmesi
