@@ -29,3 +29,6 @@ Aşağıdaki paketleri nuget üzerinden yüklemeniz gerekir:
 
 
 Swagger'a erişmek için URL'in sonuna /swagger/index.html eklenmelidir. Örnek: https://localhost:7068/swagger/index.html
+
+TODO: (veyahut Ödev :))
+Kullanıcı rollerinin çoklu bir şekilde girilmesi
