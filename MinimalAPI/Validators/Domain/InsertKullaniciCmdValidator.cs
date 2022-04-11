@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace MinimalAPI.Validators;
 
-public class InsertKullaniciCmdValidator : AbstractValidator<InsertKullanici>
+public class InsertKullaniciCmdValidator : AbstractValidator<InsertKullaniciCmd>
 {
     private readonly IKullaniciRepo _repo;
 

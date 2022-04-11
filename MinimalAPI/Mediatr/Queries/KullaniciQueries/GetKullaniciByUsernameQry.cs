@@ -3,5 +3,5 @@ using MinimalAPI.Responses;
 
 namespace MinimalAPI.Mediatr.Queries.KullaniciQueries;
 
-public record GetKullaniciByUsername(string Username) : IRequest<KullaniciResponse>;
+public record GetKullaniciByUsernameQry(string Username) : IRequest<KullaniciResponse>;
 

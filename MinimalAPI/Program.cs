@@ -143,7 +143,7 @@ try
     app.MapGet("/havaTahmini",
     async (string tarih, IMediator mediator, CancellationToken cancel) =>
         {
-            var result = await mediator.Send(new GetHavaTahmini(tarih), cancel);
+            var result = await mediator.Send(new GetHavaTahminiQry(tarih), cancel);
 
             Log.Information($"result: {result.Result}");
 
@@ -161,7 +161,7 @@ try
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         async (IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new GetPeople(), cancel);
+        var result = await mediator.Send(new GetPeopleQry(), cancel);
 
         return result.StatusCode switch
         {
@@ -173,9 +173,9 @@ try
 
     app.MapGet("/personById",
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    async (int id, IMediator mediator, CancellationToken cancel) =>
+    async (string id, IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new GetPersonById(id), cancel);
+        var result = await mediator.Send(new GetPersonByIdQry(id), cancel);
 
         return result.StatusCode switch
         {
@@ -196,7 +196,7 @@ try
             return Results.BadRequest(errors);
         }
 
-        var result = await mediator.Send(new InsertPerson(model), cancel);
+        var result = await mediator.Send(new InsertPersonCmd(model.FirstName, model.LastName), cancel);
 
         return result.StatusCode switch
         {
@@ -209,7 +209,7 @@ try
 
     app.MapPut("/updatePerson",
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    async (int id, Person model, IMediator mediator, CancellationToken cancel) =>
+    async (Person model, IMediator mediator, CancellationToken cancel) =>
     {
         var errors = ValidatePerson(model);
 
@@ -218,7 +218,7 @@ try
             return Results.BadRequest(errors);
         }
 
-        var result = await mediator.Send(new UpdatePerson(id, model), cancel);
+        var result = await mediator.Send(new UpdatePersonCmd(model), cancel);
 
         return result.StatusCode switch
         {
@@ -231,9 +231,9 @@ try
 
     app.MapDelete("/deletePerson",
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    async (int id, IMediator mediator, CancellationToken cancel) =>
+    async (string id, IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new DeletePerson(id), cancel);
+        var result = await mediator.Send(new DeletePersonCmd(id), cancel);
 
         return result.StatusCode switch
         {
@@ -251,7 +251,7 @@ try
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     async (IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new GetAllKullanici(), cancel);
+        var result = await mediator.Send(new GetAllKullaniciQry(), cancel);
 
         return result.StatusCode switch
         {
@@ -265,7 +265,7 @@ try
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     async (string username, IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new GetKullaniciByUsername(username), cancel);
+        var result = await mediator.Send(new GetKullaniciByUsernameQry(username), cancel);
 
         return result.StatusCode switch
         {
@@ -286,7 +286,7 @@ try
             return Results.BadRequest(errors);
         }
 
-        var result = await mediator.Send(new InsertKullanici(model), cancel);
+        var result = await mediator.Send(new InsertKullaniciCmd(model), cancel);
 
         return result.StatusCode switch
         {
@@ -308,7 +308,7 @@ try
             return Results.BadRequest(errors);
         }
 
-        var result = await mediator.Send(new UpdateKullanici(username, model), cancel);
+        var result = await mediator.Send(new UpdateKullaniciCmd(username, model), cancel);
 
         return result.StatusCode switch
         {
@@ -323,7 +323,7 @@ try
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     async (string username, IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new DeleteKullanici(username), cancel);
+        var result = await mediator.Send(new DeleteKullaniciCmd(username), cancel);
 
         return result.StatusCode switch
         {
@@ -336,7 +336,7 @@ try
 
     app.MapPost("/login", async (UserLogin login, IMediator mediator, CancellationToken cancel) =>
     {
-        var result = await mediator.Send(new GetLogin(login), cancel);
+        var result = await mediator.Send(new GetLoginQry(login), cancel);
 
         return result.StatusCode switch
         {

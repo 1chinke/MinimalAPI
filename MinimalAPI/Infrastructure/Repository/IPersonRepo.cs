@@ -5,11 +5,12 @@ namespace MinimalAPI.Infrastructure.Database;
 
 public interface IPersonRepo
 {
-    Task<int> Delete(int id);
+    Task<int> Delete(string id);
     Task<IEnumerable<Person>> GetAll();
-    Task<Person> GetById(int id);
-    Task<int> Insert(int id, string firstName, string lastName);
-    Task<int> Update(int id, Person model);
+    Task<Person> GetById(string id);
+    Task<Person> GetByFirstNameAndLastName(string firstName, string lastName);
+    Task<int> Insert(Person model);
+    Task<int> Update(Person model);
 
 
 }

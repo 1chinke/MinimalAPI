@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace MinimalAPI.Validators;
 
-public class InsertPersonCmdValidator : AbstractValidator<InsertPerson>
+public class InsertPersonCmdValidator : AbstractValidator<InsertPersonCmd>
 {
     private readonly IPersonRepo _repo;
 
@@ -12,15 +12,16 @@ public class InsertPersonCmdValidator : AbstractValidator<InsertPerson>
     {
         _repo = repo;
 
-        RuleFor(p => p.Model.Id).MustAsync(BeUnique).WithMessage("Bu kayıt zaten tanımlı");
-
+        RuleFor(p => p)
+            .MustAsync((x, cancellationToken) => BeUnique(x))
+            .WithMessage("Bu kayıt zaten tanımlı");
     }
 
-    protected async Task<bool> BeUnique(int id, CancellationToken cancellation)
+
+    protected async Task<bool> BeUnique(InsertPersonCmd cmd)
     {
-        var result = await _repo.GetById(id);
+        var result = await _repo.GetByFirstNameAndLastName(cmd.FirstName, cmd.LastName);
         return result == null;
     }
 
-    
 }

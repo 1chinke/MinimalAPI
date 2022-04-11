@@ -21,7 +21,7 @@ public class PersonRepo : IPersonRepo
         return await _conn.QueryAsync<Person>(query);
     }
 
-    public async Task<Person> GetById(int id)
+    public async Task<Person> GetById(string id)
     {
         string query = "Select * from person where id = :id";
 
@@ -30,16 +30,28 @@ public class PersonRepo : IPersonRepo
         return await _conn.QueryFirstOrDefaultAsync<Person>(query, param: parameters);
     }
 
-    public async Task<int> Insert(int id, string firstName, string lastName)
+    public async Task<Person> GetByFirstNameAndLastName(string firstName, string lastName)
+    {
+        string query = @"Select * from person 
+                         Where first_name = :firstName And
+                               last_name = :lastName";
+
+        var parameters = new { firstName, lastName};
+
+        return await _conn.QueryFirstOrDefaultAsync<Person>(query, param: parameters);
+
+    }
+
+    public async Task<int> Insert(Person model)
     {
         string query = "Insert Into person values(:id, :firstName, :lastName)";
 
-        var parameters = new { id, firstName, lastName };
+        var parameters = new { id = model.Id, firstName = model.FirstName, lastName = model.LastName };
 
         return await _conn.ExecuteAsync(query, param: parameters);
     }
 
-    public async Task<int> Delete(int id)
+    public async Task<int> Delete(string id)
     {
         string query = "Delete From person where id = :id";
         var parameters = new { id };
@@ -47,14 +59,13 @@ public class PersonRepo : IPersonRepo
         return await _conn.ExecuteAsync(query, param: parameters);
     }
 
-    public async Task<int> Update(int id, Person model)
+    public async Task<int> Update(Person model)
     {
         string query = @"Update person set 
-            id = :id,
             first_name = :firstName, 
             last_name = :lastName 
-            Where id = :oldId";
-        var parameters = new { id = model.Id, firstName = model.FirstName, lastName = model.LastName, oldId = id };
+            Where id = :id";
+        var parameters = new { id = model.Id, firstName = model.FirstName, lastName = model.LastName};
 
 
         return await _conn.ExecuteAsync(query, param: parameters);

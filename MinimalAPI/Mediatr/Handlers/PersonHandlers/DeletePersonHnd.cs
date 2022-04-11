@@ -6,7 +6,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
-public class DeletePersonHnd : IRequestHandler<DeletePerson, GenericResponse>
+public class DeletePersonHnd : IRequestHandler<DeletePersonCmd, GenericResponse>
 {
 
     private readonly IConnectionManager _connectionManager;
@@ -19,7 +19,7 @@ public class DeletePersonHnd : IRequestHandler<DeletePerson, GenericResponse>
 
     }
 
-    public async Task<GenericResponse> Handle(DeletePerson request, CancellationToken cancellationToken)
+    public async Task<GenericResponse> Handle(DeletePersonCmd request, CancellationToken cancellationToken)
     {
         using var transaction = _connectionManager.GetConnection().BeginTransaction();
         try

@@ -6,7 +6,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
-public class UpdatePersonelHnd : IRequestHandler<UpdatePerson, GenericResponse>
+public class UpdatePersonelHnd : IRequestHandler<UpdatePersonCmd, GenericResponse>
 {
     private readonly IConnectionManager _connectionManager;
     private readonly IPersonRepo _repo;
@@ -17,12 +17,12 @@ public class UpdatePersonelHnd : IRequestHandler<UpdatePerson, GenericResponse>
         _repo = repo;
     }
 
-    public async Task<GenericResponse> Handle(UpdatePerson request, CancellationToken cancellationToken)
+    public async Task<GenericResponse> Handle(UpdatePersonCmd request, CancellationToken cancellationToken)
     {
         using var transaction = _connectionManager.GetConnection().BeginTransaction();
         try
         {
-            var result = await _repo.Update(request.Id, request.Model);
+            var result = await _repo.Update(request.Model);
 
             if (result == 0)
             {

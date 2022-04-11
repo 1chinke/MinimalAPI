@@ -3,5 +3,5 @@ using MediatR;
 
 namespace MinimalAPI.Mediatr.Queries.PersonQueries;
 
-public record GetPeople() : IRequest<PeopleResponse>;
+public record GetPeopleQry() : IRequest<PeopleResponse>;
 

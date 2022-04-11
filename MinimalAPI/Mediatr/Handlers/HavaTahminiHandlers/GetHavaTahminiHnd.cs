@@ -6,7 +6,7 @@ using MinimalAPI.Mediatr.Queries.HavaTahminiQueries;
 
 namespace MinimalAPI.Mediatr.Handlers.HavaTahminiHandlers;
 
-public class GetHavaTahminiHnd : IRequestHandler<GetHavaTahmini, GenericResponse>
+public class GetHavaTahminiHnd : IRequestHandler<GetHavaTahminiQry, GenericResponse>
 {
 
     private readonly IHavaTahminiSvc _havaTahminSvc;
@@ -16,7 +16,7 @@ public class GetHavaTahminiHnd : IRequestHandler<GetHavaTahmini, GenericResponse
         _havaTahminSvc = havaTahminiSvc;
     }
 
-    public async Task<GenericResponse> Handle(GetHavaTahmini request, CancellationToken cancellationToken)
+    public async Task<GenericResponse> Handle(GetHavaTahminiQry request, CancellationToken cancellationToken)
     {
 
         try

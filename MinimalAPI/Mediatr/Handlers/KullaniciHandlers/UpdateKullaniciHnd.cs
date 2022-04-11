@@ -6,7 +6,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
-public class UpdateKullanicielHnd : IRequestHandler<UpdateKullanici, GenericResponse>
+public class UpdateKullanicielHnd : IRequestHandler<UpdateKullaniciCmd, GenericResponse>
 {
 
     private readonly IKullaniciRepo _repo;
@@ -18,7 +18,7 @@ public class UpdateKullanicielHnd : IRequestHandler<UpdateKullanici, GenericResp
         _repo = repo;
     }
 
-    public async Task<GenericResponse> Handle(UpdateKullanici request, CancellationToken cancellationToken)
+    public async Task<GenericResponse> Handle(UpdateKullaniciCmd request, CancellationToken cancellationToken)
     {
         using var transaction = _connectionManager.GetConnection().BeginTransaction();
         try

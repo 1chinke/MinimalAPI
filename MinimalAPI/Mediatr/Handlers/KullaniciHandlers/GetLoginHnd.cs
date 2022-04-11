@@ -11,7 +11,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
-public class GetLoginHnd : IRequestHandler<GetLogin, LoginResponse>
+public class GetLoginHnd : IRequestHandler<GetLoginQry, LoginResponse>
 {
     private readonly IKullaniciRepo _repo;
     private readonly IConfiguration _config;
@@ -22,7 +22,7 @@ public class GetLoginHnd : IRequestHandler<GetLogin, LoginResponse>
         _config = config;
     }
 
-    public async Task<LoginResponse> Handle(GetLogin request, CancellationToken cancellationToken)
+    public async Task<LoginResponse> Handle(GetLoginQry request, CancellationToken cancellationToken)
     {
         try
         {

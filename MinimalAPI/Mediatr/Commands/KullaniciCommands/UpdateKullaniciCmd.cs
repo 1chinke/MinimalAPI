@@ -4,4 +4,5 @@ using MediatR;
 
 namespace MinimalAPI.Mediatr.Commands.KullaniciCommands;
 
-public record InsertKullanici(Kullanici Model) : IRequest<GenericResponse>;
+public record UpdateKullaniciCmd(string Username, Kullanici Model) : IRequest<GenericResponse>;
+

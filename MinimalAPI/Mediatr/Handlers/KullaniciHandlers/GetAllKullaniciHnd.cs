@@ -6,7 +6,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
-public class GetPeopleHnd : IRequestHandler<GetAllKullanici, KullanicilarResponse>
+public class GetPeopleHnd : IRequestHandler<GetAllKullaniciQry, KullanicilarResponse>
 {
 
     private readonly IKullaniciRepo _repo;
@@ -17,7 +17,7 @@ public class GetPeopleHnd : IRequestHandler<GetAllKullanici, KullanicilarRespons
 
     }
 
-    public async Task<KullanicilarResponse> Handle(GetAllKullanici request, CancellationToken cancellationToken)
+    public async Task<KullanicilarResponse> Handle(GetAllKullaniciQry request, CancellationToken cancellationToken)
     {
 
         try

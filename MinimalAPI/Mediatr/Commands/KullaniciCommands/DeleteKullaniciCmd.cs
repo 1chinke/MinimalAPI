@@ -3,5 +3,5 @@ using MediatR;
 
 namespace MinimalAPI.Mediatr.Commands.KullaniciCommands;
 
-public record DeleteKullanici(string Username) : IRequest<GenericResponse>;
+public record DeleteKullaniciCmd(string Username) : IRequest<GenericResponse>;
 

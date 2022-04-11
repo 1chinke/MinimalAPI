@@ -6,7 +6,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
-public class DeleteKullaniciHnd : IRequestHandler<DeleteKullanici, GenericResponse>
+public class DeleteKullaniciHnd : IRequestHandler<DeleteKullaniciCmd, GenericResponse>
 {
 
     private readonly IKullaniciRepo _repo;
@@ -18,7 +18,7 @@ public class DeleteKullaniciHnd : IRequestHandler<DeleteKullanici, GenericRespon
         _repo = repo;
     }
 
-    public async Task<GenericResponse> Handle(DeleteKullanici request, CancellationToken cancellationToken)
+    public async Task<GenericResponse> Handle(DeleteKullaniciCmd request, CancellationToken cancellationToken)
     {
         
         using var transaction = _connectionManager.GetConnection().BeginTransaction();

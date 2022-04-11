@@ -8,7 +8,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
-public class InsertKullaniciHnd : IRequestHandler<InsertKullanici, GenericResponse>
+public class InsertKullaniciHnd : IRequestHandler<InsertKullaniciCmd, GenericResponse>
 {
     private readonly IConnectionManager _connectioManager;
     private readonly IKullaniciRepo _repo;
@@ -21,7 +21,7 @@ public class InsertKullaniciHnd : IRequestHandler<InsertKullanici, GenericRespon
         _config = config;
     }
 
-    public async Task<GenericResponse> Handle(InsertKullanici request, CancellationToken cancellationToken)
+    public async Task<GenericResponse> Handle(InsertKullaniciCmd request, CancellationToken cancellationToken)
     {
         try
         {

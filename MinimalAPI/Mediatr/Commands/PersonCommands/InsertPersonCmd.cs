@@ -4,4 +4,4 @@ using MinimalAPI.Models;
 
 namespace MinimalAPI.Mediatr.Commands.PersonCommands;
 
-public record InsertPerson(Person Model) : IRequest<GenericResponse>;  
+public record InsertPersonCmd(string FirstName, string LastName) : IRequest<GenericResponse>;

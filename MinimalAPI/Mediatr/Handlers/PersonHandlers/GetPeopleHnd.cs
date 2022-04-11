@@ -6,7 +6,7 @@ using System.Net;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
-public class GetPeopleHnd : IRequestHandler<GetPeople, PeopleResponse>
+public class GetPeopleHnd : IRequestHandler<GetPeopleQry, PeopleResponse>
 {
 
     private readonly IPersonRepo _repo;
@@ -17,7 +17,7 @@ public class GetPeopleHnd : IRequestHandler<GetPeople, PeopleResponse>
 
     }
 
-    public async Task<PeopleResponse> Handle(GetPeople request, CancellationToken cancellationToken)
+    public async Task<PeopleResponse> Handle(GetPeopleQry request, CancellationToken cancellationToken)
     {
        
         try

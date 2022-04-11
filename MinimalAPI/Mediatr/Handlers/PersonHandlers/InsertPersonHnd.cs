@@ -3,10 +3,12 @@ using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;
+using MinimalAPI.Utils;
+using MinimalAPI.Models;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
-public class InsertPersonHnd : IRequestHandler<InsertPerson, GenericResponse>
+public class InsertPersonHnd : IRequestHandler<InsertPersonCmd, GenericResponse>
 {
     private readonly IConnectionManager _connectionManager;
     private readonly IPersonRepo _repo;
@@ -17,14 +19,22 @@ public class InsertPersonHnd : IRequestHandler<InsertPerson, GenericResponse>
         _repo = repo;
     }
 
-    public async Task<GenericResponse> Handle(InsertPerson request, CancellationToken cancellationToken)
+    public async Task<GenericResponse> Handle(InsertPersonCmd request, CancellationToken cancellationToken)
     { 
         try
         {
             using var transaction = _connectionManager.GetConnection().BeginTransaction();
             try
             {
-                var result = await _repo.Insert(request.Model.Id, request.Model.FirstName, request.Model.LastName);
+                Person model = new Person
+                {
+                    Id = Generate.Id(),
+                    FirstName = request.FirstName,
+                    LastName = request.LastName
+                };
+             
+                var result = await _repo.Insert(model);
+
                 transaction.Commit();
 
                 if (result == 0)

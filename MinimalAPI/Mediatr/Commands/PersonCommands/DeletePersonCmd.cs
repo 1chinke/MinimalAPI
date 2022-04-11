@@ -4,4 +4,4 @@ using MediatR;
 
 namespace MinimalAPI.Mediatr.Commands.PersonCommands;
 
-public record DeletePerson(int Id) : IRequest<GenericResponse>;  
+public record DeletePersonCmd(string Id) : IRequest<GenericResponse>;  
