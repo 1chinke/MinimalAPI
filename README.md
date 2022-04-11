@@ -6,6 +6,10 @@ Farklar: Artık controller yok, onun yerine Program.cs içerisinde doğrudan API
 
 Örnekte görüldüğü gibi mediator dependency injection artık constructor ile değil doğrudan methodun parametresi ile yapılıyor.
 
+Uygulamayı çalıştırabilmek için bir lokal bir redis sunucusuna ihtiyaç var. Bunun için ya redisi bilgisayarınıza kurmanız ya da docker image'i indirip çalıştımanız gerekiyor. Benim önerim docker image'i kullanmanız. Docker image için aşağıdaki komutu çalıştırabilirsiniz:
+
+docker run -d --restart unless-stopped --name cache-redis -p 6379:6379 redis redis-server
+
 Ayrıca bu projede Authentication ve Authorization da kullanılıyor. login olmadan diğer end pointleri kullanmanız mümkün değil.
 
 Login den dönen token kopyalanarak swagger'daki "Authorize" kısmına yapıştırılmalı. Ancak tokenın başındaki ve sonundaki " (çift tırnak) karakterleri silinmeli aksi takdirde invalid token hatası alırsınız.
@@ -25,10 +29,10 @@ kullanabilirsiniz.
 
 Aşağıdaki paketleri nuget üzerinden yüklemeniz gerekir:
 
-![image](https://user-images.githubusercontent.com/42934024/162229555-aca78cac-cbf8-4f53-b2b4-b32cecfa7f8d.png)
+![image](https://user-images.githubusercontent.com/42934024/162677865-dfdce8db-fac3-47eb-a7fd-d31a8940d78d.png)
 
 
-Swagger'a erişmek için URL'in sonuna /swagger/index.html eklenmelidir. Örnek: https://localhost:7068/swagger/index.html
+
 
 TODO: (veyahut Ödev :))
 Kullanıcı rollerinin çoklu bir şekilde girilmesi
