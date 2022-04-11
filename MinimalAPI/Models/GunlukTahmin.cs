@@ -15,6 +15,7 @@ public class GunlukTahmin
 
     [JsonPropertyName("max_temp")]
     public double MaxTemp { get; set; }
+
 }
 
 

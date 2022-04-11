@@ -100,6 +100,13 @@ try
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
+
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = "localhost:6379";
+    });
+
+
     builder.Services.AddAuthorization();
 
     //vmo: DI'lar buraya ekleniyor
@@ -137,6 +144,8 @@ try
     async (string tarih, IMediator mediator, CancellationToken cancel) =>
         {
             var result = await mediator.Send(new GetHavaTahmini(tarih), cancel);
+
+            Log.Information($"result: {result.Result}");
 
             return result.StatusCode switch
             {

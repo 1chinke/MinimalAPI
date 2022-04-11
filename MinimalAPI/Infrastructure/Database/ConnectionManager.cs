@@ -22,10 +22,6 @@ public class ConnectionManager : IConnectionManager
                             $"Incr Pool Size = {config["Database:Pool:IncrPoolSize"]};" +
                             $"Decr Pool Size = {config["Database:Pool:IncrPoolSize"]};";
 
-
-
-
-
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         _conn = new OracleConnection(connString);
     }
