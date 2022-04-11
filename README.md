@@ -25,10 +25,9 @@ kullanabilirsiniz.
 
 Aşağıdaki paketleri nuget üzerinden yüklemeniz gerekir:
 
-![image](https://user-images.githubusercontent.com/42934024/162229555-aca78cac-cbf8-4f53-b2b4-b32cecfa7f8d.png)
+![image](https://user-images.githubusercontent.com/42934024/162677145-9f822741-3e3b-41bd-b986-b37deae71d1c.png)
 
 
-Swagger'a erişmek için URL'in sonuna /swagger/index.html eklenmelidir. Örnek: https://localhost:7068/swagger/index.html
 
 TODO: (veyahut Ödev :))
 Kullanıcı rollerinin çoklu bir şekilde girilmesi
