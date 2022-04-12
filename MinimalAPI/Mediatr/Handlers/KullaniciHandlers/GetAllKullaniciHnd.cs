@@ -1,17 +1,17 @@
 ﻿using MinimalAPI.Mediatr.Queries.KullaniciQueries;
-using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Queries;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
 public class GetPeopleHnd : IRequestHandler<GetAllKullaniciQry, KullanicilarResponse>
 {
 
-    private readonly IKullaniciRepo _repo;
+    private readonly IKullaniciQryRepo _repo;
 
-    public GetPeopleHnd(IKullaniciRepo repo)
+    public GetPeopleHnd(IKullaniciQryRepo repo)
     {
         _repo = repo;
 

@@ -1,14 +1,15 @@
 ﻿using Dapper;
+using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Models;
 using System.Data;
 
-namespace MinimalAPI.Infrastructure.Database;
+namespace MinimalAPI.Infrastructure.Repository.Commands;
 
-public class RolRepo : IRolRepo
+public class RolCmdRepo : IRolCmdRepo
 {
     private readonly IDbConnection _conn;
 
-    public RolRepo(IConnectionManager connectionManager)
+    public RolCmdRepo(IConnectionManager connectionManager)
     {
         _conn = connectionManager.GetConnection();
     }
@@ -19,12 +20,6 @@ public class RolRepo : IRolRepo
         var parameters = new { username };
 
         return await _conn.ExecuteAsync(query, param: parameters);
-    }
-
-    public async Task<IEnumerable<Rol>> GetAll()
-    {
-        string query = "Select * from rol order by username";
-        return await _conn.QueryAsync<Rol>(query);
     }
 
     public async Task<int> Insert(Rol model)

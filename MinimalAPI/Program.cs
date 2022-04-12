@@ -6,22 +6,24 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MinimalAPI.Infrastructure.Database;
+using MinimalAPI.Infrastructure.Integration;
+using MinimalAPI.Infrastructure.Repository.Commands;
+using MinimalAPI.Infrastructure.Repository.Queries;
 using MinimalAPI.Mediatr;
 using MinimalAPI.Mediatr.Behaviors;
 using MinimalAPI.Mediatr.Commands.KullaniciCommands;
 using MinimalAPI.Mediatr.Commands.PersonCommands;
+using MinimalAPI.Mediatr.Queries.HavaTahminiQueries;
 using MinimalAPI.Mediatr.Queries.KullaniciQueries;
 using MinimalAPI.Mediatr.Queries.PersonQueries;
 using MinimalAPI.Models;
-using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Validators.Api;
 using MinimalAPI.Validators.Domain;
 using Serilog;
 using Serilog.Events;
-using System.Text;
-using MinimalAPI.Infrastructure.Integration;
-using MinimalAPI.Mediatr.Queries.HavaTahminiQueries;
 using System.Net;
+using System.Text;
 
 
 // Serilogu iki aþamalý olarak yapýlandýrýyoruz.
@@ -111,10 +113,15 @@ try
 
     //vmo: DI'lar buraya ekleniyor
     builder.Services.AddSingleton<IConnectionManager, ConnectionManager>();
-    builder.Services.AddSingleton<IPersonRepo, PersonRepo>();
-    builder.Services.AddSingleton<IKullaniciRepo, KullaniciRepo>();
-    builder.Services.AddSingleton<IRolRepo, RolRepo>();
+    builder.Services.AddSingleton<IPersonQryRepo, PersonQryRepo>();
+    builder.Services.AddSingleton<IPersonCmdRepo, PersonCmdRepo>();
+    builder.Services.AddSingleton<IKullaniciQryRepo, KullaniciQryRepo>();
+    builder.Services.AddSingleton<IKullaniciCmdRepo, KullaniciCmdRepo>();
+    // builder.Services.AddSingleton<IRolQryRepo, RolQryRepo>();
+    // builder.Services.AddSingleton<IRolCmdRepo, RolCmdRepo>();
+
     builder.Services.AddSingleton<IHavaTahminiSvc, HavaTahminiSvc>();
+
 
     builder.Services.AddMediatR(typeof(MediatrEntryPoint).Assembly); //bunun için nugetten mediatr.dependencyinjection paketini eklemek gerekiyor.
                                                                      //MediatrEntryPoint: Mediatr dizinindeki boþ class
@@ -159,7 +166,7 @@ try
 
     app.MapGet("/allPerson",
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        async (IMediator mediator, CancellationToken cancel) =>
+    async (IMediator mediator, CancellationToken cancel) =>
     {
         var result = await mediator.Send(new GetPeopleQry(), cancel);
 
@@ -390,7 +397,7 @@ try
                 pd.Extensions.Add("RequestId", context.TraceIdentifier);
                 pd.Extensions.Add("User", context.User);
 
-            context.Response.StatusCode = status;
+                context.Response.StatusCode = status;
 
                 await context.Response.WriteAsJsonAsync(pd, pd.GetType(), null, contentType: "application/problem+json");
             });

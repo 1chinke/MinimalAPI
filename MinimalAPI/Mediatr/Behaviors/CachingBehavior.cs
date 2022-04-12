@@ -4,7 +4,6 @@ using MinimalAPI.Infrastructure.Integration;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
 namespace MinimalAPI.Mediatr.Behaviors;

@@ -1,14 +1,14 @@
 ﻿using MinimalAPI.Mediatr.Commands.PersonCommands;
-using MinimalAPI.Infrastructure.Database;
 using FluentValidation;
+using MinimalAPI.Infrastructure.Repository.Queries;
 
 namespace MinimalAPI.Validators;
 
 public class InsertPersonCmdValidator : AbstractValidator<InsertPersonCmd>
 {
-    private readonly IPersonRepo _repo;
+    private readonly IPersonQryRepo _repo;
 
-    public InsertPersonCmdValidator(IPersonRepo repo)
+    public InsertPersonCmdValidator(IPersonQryRepo repo)
     {
         _repo = repo;
 

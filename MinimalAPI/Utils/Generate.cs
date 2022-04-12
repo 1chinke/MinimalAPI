@@ -2,10 +2,12 @@
 
 namespace MinimalAPI.Utils;
 
-public static class Generate
-{
+public class Generate 
+{    
     public static string Id()
     {
+        Ulid.NewUlid();
         return Ulid.NewUlid().ToString();
     }
+    
 }

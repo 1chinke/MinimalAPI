@@ -3,16 +3,17 @@ using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Commands;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
 public class DeleteKullaniciHnd : IRequestHandler<DeleteKullaniciCmd, GenericResponse>
 {
 
-    private readonly IKullaniciRepo _repo;
+    private readonly IKullaniciCmdRepo _repo;
     private readonly IConnectionManager _connectionManager;
 
-    public DeleteKullaniciHnd(IConnectionManager connectionManager, IKullaniciRepo repo)
+    public DeleteKullaniciHnd(IConnectionManager connectionManager, IKullaniciCmdRepo repo)
     {
         _connectionManager = connectionManager;
         _repo = repo;

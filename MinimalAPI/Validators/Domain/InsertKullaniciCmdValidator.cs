@@ -1,14 +1,14 @@
-﻿using MinimalAPI.Mediatr.Commands.KullaniciCommands;
-using MinimalAPI.Infrastructure.Database;
-using FluentValidation;
+﻿using FluentValidation;
+using MinimalAPI.Infrastructure.Repository.Queries;
+using MinimalAPI.Mediatr.Commands.KullaniciCommands;
 
 namespace MinimalAPI.Validators;
 
 public class InsertKullaniciCmdValidator : AbstractValidator<InsertKullaniciCmd>
 {
-    private readonly IKullaniciRepo _repo;
+    private readonly IKullaniciQryRepo _repo;
 
-    public InsertKullaniciCmdValidator(IKullaniciRepo repo)
+    public InsertKullaniciCmdValidator(IKullaniciQryRepo repo)
     {
         _repo = repo;
 

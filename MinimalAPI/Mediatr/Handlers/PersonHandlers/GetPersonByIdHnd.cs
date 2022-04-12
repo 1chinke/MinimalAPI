@@ -1,16 +1,16 @@
 ﻿using MediatR;
 using MinimalAPI.Mediatr.Queries.PersonQueries;
-using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Queries;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
 public class GetPersonByIdHnd : IRequestHandler<GetPersonByIdQry, PersonResponse>
 {
-    private readonly IPersonRepo _repo;
+    private readonly IPersonQryRepo _repo;
 
-    public GetPersonByIdHnd(IPersonRepo repo)
+    public GetPersonByIdHnd(IPersonQryRepo repo)
     {
         _repo = repo;
     }

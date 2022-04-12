@@ -1,6 +1,5 @@
 ﻿using MinimalAPI.Responses;
 using MediatR;
-using MinimalAPI.Models;
 
 namespace MinimalAPI.Mediatr.Commands.PersonCommands;
 

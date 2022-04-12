@@ -3,6 +3,7 @@ using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Commands;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
@@ -10,9 +11,9 @@ public class DeletePersonHnd : IRequestHandler<DeletePersonCmd, GenericResponse>
 {
 
     private readonly IConnectionManager _connectionManager;
-    private readonly IPersonRepo _repo;
+    private readonly IPersonCmdRepo _repo;
 
-    public DeletePersonHnd(IConnectionManager connectionManager, IPersonRepo repo)
+    public DeletePersonHnd(IConnectionManager connectionManager, IPersonCmdRepo repo)
     {
         _connectionManager = connectionManager;
         _repo = repo;

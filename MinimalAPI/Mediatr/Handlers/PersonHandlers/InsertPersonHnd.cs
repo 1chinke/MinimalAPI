@@ -3,17 +3,17 @@ using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;
-using MinimalAPI.Utils;
 using MinimalAPI.Models;
+using MinimalAPI.Infrastructure.Repository.Commands;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
 public class InsertPersonHnd : IRequestHandler<InsertPersonCmd, GenericResponse>
 {
     private readonly IConnectionManager _connectionManager;
-    private readonly IPersonRepo _repo;
+    private readonly IPersonCmdRepo _repo;
 
-    public InsertPersonHnd(IConnectionManager connectionManager, IPersonRepo repo)
+    public InsertPersonHnd(IConnectionManager connectionManager, IPersonCmdRepo repo)
     {
         _connectionManager = connectionManager;
         _repo = repo;
@@ -26,9 +26,8 @@ public class InsertPersonHnd : IRequestHandler<InsertPersonCmd, GenericResponse>
             using var transaction = _connectionManager.GetConnection().BeginTransaction();
             try
             {
-                Person model = new Person
+                Person model = new()
                 {
-                    Id = Generate.Id(),
                     FirstName = request.FirstName,
                     LastName = request.LastName
                 };

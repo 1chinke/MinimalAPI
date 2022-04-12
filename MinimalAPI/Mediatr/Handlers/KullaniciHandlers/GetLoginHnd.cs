@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using MinimalAPI.Mediatr.Queries.KullaniciQueries;
-using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,15 +7,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Cryptography;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Queries;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
 public class GetLoginHnd : IRequestHandler<GetLoginQry, LoginResponse>
 {
-    private readonly IKullaniciRepo _repo;
+    private readonly IKullaniciQryRepo _repo;
     private readonly IConfiguration _config;
 
-    public GetLoginHnd(IKullaniciRepo repo, IConfiguration config)
+    public GetLoginHnd(IKullaniciQryRepo repo, IConfiguration config)
     {
         _repo = repo;
         _config = config;

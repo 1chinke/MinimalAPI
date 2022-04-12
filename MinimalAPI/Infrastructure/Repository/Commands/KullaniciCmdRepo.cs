@@ -1,14 +1,15 @@
 ﻿using Dapper;
+using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Models;
 using System.Data;
 
-namespace MinimalAPI.Infrastructure.Database;
+namespace MinimalAPI.Infrastructure.Repository.Commands;
 
-public class KullaniciRepo : IKullaniciRepo
+public class KullaniciCmdRepo : IKullaniciCmdRepo
 {
     private readonly IDbConnection _conn;
 
-    public KullaniciRepo(IConnectionManager connectionManager)
+    public KullaniciCmdRepo(IConnectionManager connectionManager)
     {
         _conn = connectionManager.GetConnection();
     }
@@ -19,32 +20,6 @@ public class KullaniciRepo : IKullaniciRepo
         var parameters = new { username };
 
         return await _conn.ExecuteAsync(query, param: parameters);
-    }
-
-    public async Task<IEnumerable<Kullanici>> GetAll()
-    {
-        string query = "Select * from kullanici order by username";
-        return await _conn.QueryAsync<Kullanici>(query);
-    }
-
-    public async Task<Kullanici> GetByUsername(string username)
-    {
-        string query = "Select * from kullanici where username = :username";
-
-        var parameters = new { username };
-
-        return await _conn.QueryFirstOrDefaultAsync<Kullanici>(query, param: parameters);
-    }
-
-    public async Task<Kullanici> Login(string username, string password)
-    {
-        string query = @"Select * from kullanici 
-                         Where username = :username and 
-                               password = :password";
-
-        var parameters = new { username, password };
-
-        return await _conn.QueryFirstOrDefaultAsync<Kullanici>(query, param: parameters);
     }
 
     public async Task<int> Insert(Kullanici model)
@@ -87,17 +62,4 @@ public class KullaniciRepo : IKullaniciRepo
         return result;
     }
 
-    public async Task<IEnumerable<Rol>> GetKullaniciRoles(string username)
-    {
-        string query = @"Select r.*
-                         From kullanici k, rol r, kullanici_rol kr
-                         Where kr.username = k.username And
-                               kr.rol = r.id And
-                               k.username = :username
-                         Order By r.id ";
-
-        var parameters = new { username };
-
-        return await _conn.QueryAsync<Rol>(query, param: parameters);
-    }
 }

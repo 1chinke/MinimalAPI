@@ -3,15 +3,16 @@ using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Commands;
 
 namespace MinimalAPI.Mediatr.Handlers.PersonHandlers;
 
 public class UpdatePersonelHnd : IRequestHandler<UpdatePersonCmd, GenericResponse>
 {
     private readonly IConnectionManager _connectionManager;
-    private readonly IPersonRepo _repo;
+    private readonly IPersonCmdRepo _repo;
 
-    public UpdatePersonelHnd(IConnectionManager connectionManager, IPersonRepo repo)
+    public UpdatePersonelHnd(IConnectionManager connectionManager, IPersonCmdRepo repo)
     {
         _connectionManager = connectionManager;
         _repo = repo;

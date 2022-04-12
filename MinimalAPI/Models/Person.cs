@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MinimalAPI.Utils;
 
 namespace MinimalAPI.Models;
 
 public class Person
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = Generate.Id();
 
     public string FirstName { get; set; }
 

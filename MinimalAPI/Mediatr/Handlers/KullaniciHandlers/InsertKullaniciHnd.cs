@@ -5,16 +5,17 @@ using MediatR;
 using System.Security.Cryptography;
 using System.Text;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Commands;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
 public class InsertKullaniciHnd : IRequestHandler<InsertKullaniciCmd, GenericResponse>
 {
     private readonly IConnectionManager _connectioManager;
-    private readonly IKullaniciRepo _repo;
+    private readonly IKullaniciCmdRepo _repo;
     private readonly IConfiguration _config;
 
-    public InsertKullaniciHnd(IConnectionManager connectioManager, IKullaniciRepo repo, IConfiguration config)
+    public InsertKullaniciHnd(IConnectionManager connectioManager, IKullaniciCmdRepo repo, IConfiguration config)
     {
         _connectioManager = connectioManager;
         _repo = repo;

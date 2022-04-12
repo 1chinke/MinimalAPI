@@ -3,16 +3,17 @@ using MinimalAPI.Infrastructure.Database;
 using MinimalAPI.Responses;
 using MediatR;
 using System.Net;
+using MinimalAPI.Infrastructure.Repository.Commands;
 
 namespace MinimalAPI.Mediatr.Handlers.KullaniciHandlers;
 
 public class UpdateKullanicielHnd : IRequestHandler<UpdateKullaniciCmd, GenericResponse>
 {
 
-    private readonly IKullaniciRepo _repo;
+    private readonly IKullaniciCmdRepo _repo;
     private readonly IConnectionManager _connectionManager;
 
-    public UpdateKullanicielHnd(IConnectionManager connectionManager, IKullaniciRepo repo)
+    public UpdateKullanicielHnd(IConnectionManager connectionManager, IKullaniciCmdRepo repo)
     {
         _connectionManager = connectionManager;
         _repo = repo;
