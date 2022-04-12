@@ -29,7 +29,8 @@ kullanabilirsiniz.
 
 Aşağıdaki paketleri nuget üzerinden yüklemeniz gerekir:
 
-![image](https://user-images.githubusercontent.com/42934024/162677865-dfdce8db-fac3-47eb-a7fd-d31a8940d78d.png)
+![image](https://user-images.githubusercontent.com/42934024/162703761-7fb1df79-0c78-4b3f-87c8-fd0bf7a12093.png)
+
 
 
 
